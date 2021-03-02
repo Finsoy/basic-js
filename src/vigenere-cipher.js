@@ -38,39 +38,51 @@ class VigenereCipheringMachine {
     let string = '';
     let k = 0;
     for (let i = 0; i < str.length; i++) {
-      if (typeof Number(str[i]) === 'number') {
+      if (typeof Number(str[i]) === 'number' || str[i] === ' ') {
         string += str[i];
       } else if (!this.arr.includes(str[i].toUpperCase())) {
         k = k === key.length - 1 ? 0 : k + 1;
         continue;
+      } else {
+        string += this.arr[
+          (this.arr.indexOf(str[i].toUpperCase()) +
+            this.arr.indexOf(key[k].toUpperCase())) %
+            this.arr.length
+        ];
+        k = k === key.length - 1 ? 0 : k + 1;
       }
-      string += this.arr[
-        (this.arr.indexOf(str[i].toUpperCase()) +
-          this.arr.indexOf(key[k].toUpperCase())) %
-          this.arr.length
-      ];
-      k = k === key.length - 1 ? 0 : k + 1;
     }
-    return this.bool ? string : string.split('').reverse().join('');
+    if (this.bool === true) {
+      return string;
+    } else {
+      return string.split('').reverse().join('');
+    }
   }
   decrypt(str, key) {
     if (!(str && key)) throw Error;
     let string = '';
     let k = 0;
     for (let i = 0; i < str.length; i++) {
-      if (!this.arr.includes(str[i].toUpperCase())) {
+      if (typeof Number(str[i]) === 'number' || str[i] === ' ') {
+        string += str[i];
+      } else if (!this.arr.includes(str[i].toUpperCase())) {
         k = k === key.length - 1 ? 0 : k + 1;
         continue;
+      } else {
+        string += this.arr[
+          (this.arr.indexOf(str[i].toUpperCase()) +
+            this.arr.length -
+            this.arr.indexOf(key[k].toUpperCase())) %
+            this.arr.length
+        ];
+        k = k === key.length - 1 ? 0 : k + 1;
       }
-      string += this.arr[
-        (this.arr.indexOf(str[i].toUpperCase()) +
-          this.arr.length -
-          this.arr.indexOf(key[k].toUpperCase())) %
-          this.arr.length
-      ];
-      k = k === key.length - 1 ? 0 : k + 1;
     }
-    return this.bool ? string : string.split('').reverse().join('');
+    if (this.bool === true) {
+      return string;
+    } else {
+      return string.split('').reverse().join('');
+    }
   }
 }
 module.exports = VigenereCipheringMachine;
