@@ -38,24 +38,21 @@ class VigenereCipheringMachine {
     let string = '';
     let k = 0;
     for (let i = 0; i < str.length; i++) {
-      if (typeof Number(str[i]) === 'number' || str[i] === ' ') {
-        string += str[i];
-      } else if (!this.arr.includes(str[i].toUpperCase())) {
-        k = k === key.length - 1 ? 0 : k + 1;
-        continue;
-      } else {
+      if (this.arr.includes(str[i].toUpperCase())) {
         string += this.arr[
           (this.arr.indexOf(str[i].toUpperCase()) +
             this.arr.indexOf(key[k].toUpperCase())) %
             this.arr.length
         ];
         k = k === key.length - 1 ? 0 : k + 1;
+      } else {
+        string += str[i];
       }
     }
-    if (this.bool === true) {
-      return string;
-    } else {
+    if (this.bool === false) {
       return string.split('').reverse().join('');
+    } else {
+      return string;
     }
   }
   decrypt(str, key) {
@@ -63,12 +60,7 @@ class VigenereCipheringMachine {
     let string = '';
     let k = 0;
     for (let i = 0; i < str.length; i++) {
-      if (typeof Number(str[i]) === 'number' || str[i] === ' ') {
-        string += str[i];
-      } else if (!this.arr.includes(str[i].toUpperCase())) {
-        k = k === key.length - 1 ? 0 : k + 1;
-        continue;
-      } else {
+      if (this.arr.includes(str[i].toUpperCase())) {
         string += this.arr[
           (this.arr.indexOf(str[i].toUpperCase()) +
             this.arr.length -
@@ -76,12 +68,14 @@ class VigenereCipheringMachine {
             this.arr.length
         ];
         k = k === key.length - 1 ? 0 : k + 1;
+      } else {
+        string += str[i];
       }
     }
-    if (this.bool === true) {
-      return string;
-    } else {
+    if (this.bool === false) {
       return string.split('').reverse().join('');
+    } else {
+      return string;
     }
   }
 }
